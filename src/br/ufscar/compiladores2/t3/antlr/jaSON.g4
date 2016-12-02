@@ -4,7 +4,7 @@ program :
     (class_definition)*;
 
 class_definition :
-    'class' IDENT ('extends' IDENT)? '{' class_body '}';
+    modifiers 'class' IDENT ('extends' IDENT)? '{' class_body '}';
 
 class_body :
     variables* constructors+ function_main?;
@@ -16,9 +16,10 @@ mais_var: ',' IDENT mais_var |
 ;
 
 constructors :
-    IDENT '(' (arguments)?(','arguments)* ')' '{' constructor_body '}' ;
+    modifiers IDENT '(' (arguments) ')' '{' constructor_body '}' ;
 
 constructor_body :
+    ('super('parametros')' ';')?
     assignment*;
 
 assignment :
@@ -28,7 +29,7 @@ attribute :
     ('this' '.')? IDENT/*variaveis da classe*/;
 
 arguments:
-    type IDENT/* nome do argumento*/
+    type IDENT (',' arguments)* | /* nome do argumento*/
     ;
 
 type:
@@ -37,12 +38,21 @@ type:
 function_main:
     'public' 'static' 'void' 'main' '(' 'String' 'args' '[]' ')' '{' function_body '}';
 
+
+modifiers:
+    'public' | 'private' |
+;
+
 function_body:
     variables*
-    (IDENT/*tipo*/ IDENT /*objeto*/ '=' 'new' IDENT /*construtor*/ '(' (IDENT)?(','IDENT)*
-    /* aqui são as variaveis que serão passadas por parametro para o construtor*/ ')' )+ ';'
+    (IDENT/*tipo*/ IDENT /*objeto*/ '=' 'new' IDENT /*construtor*/ '(' (parametros) ')' ';' )+
+    /* aqui são as variaveis que serão passadas por parametro para o construtor*/
     ;
 
+parametros:
+    ((IDENT | NUM_FLOAT | NUM_INT | STRING)(',' (IDENT | NUM_FLOAT | NUM_INT | STRING))*) |
+    /* Aqui são as variaveis declaradas em function_body*/
+;
 IDENT:
     ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
 

@@ -30,6 +30,9 @@ class H extends G{
     }
 }
 public class Ex6 {
+    public Ex6() {
+    }
+
     public static void main(String args[]){
         G obj1 = new G();
         G obj2 = new G("b",3,2);

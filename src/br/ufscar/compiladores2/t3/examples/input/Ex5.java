@@ -30,6 +30,9 @@ class F extends E{
     }
 }
 public class Ex5 {
+    public Ex5() {
+    }
+
     public static void main(String args[]){
         E obj1 = new E();
         E obj2 = new E("b",3.0,2);
