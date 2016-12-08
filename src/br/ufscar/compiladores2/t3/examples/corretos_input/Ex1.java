@@ -1,11 +1,4 @@
-package br.ufscar.compiladores2.t3.examples.input;
-
-/**
- * Created by leo on 24/11/16.
- */
-
-
-class A{
+class A {
     String x;
     double y;
     int z;
@@ -17,20 +10,21 @@ class A{
     }
 }
 
-class B extends A {
+class A1 extends A {
     double h;
-    N(String x, double y, int z, double h) {
+
+    A1(String x, double y, int z, double h) {
         super(x, y, z);
         this.h = h;
     }
 }
 
 class Ex1 {
-    public Ex1() {
+    Ex1() {
     }
 
     public static void main(String args[]){
-        A obj1 = new A("abc", 1.2, aa);
+        A1 obj1 = new A1("abc", 1.2, 5 ,2.2);
     }
 }
 

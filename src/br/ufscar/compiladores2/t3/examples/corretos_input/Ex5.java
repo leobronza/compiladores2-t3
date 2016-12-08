@@ -1,14 +1,7 @@
-package br.ufscar.compiladores2.t3.examples.input;
-
 class E{
     String x;
     double y;
     int z;
-
-    E(){
-        this.x = "a";
-        this.y = 2.0;
-    }
 
     E(String a, double b, int c){
         this.x = a;
@@ -17,26 +10,21 @@ class E{
     }
 }
 class F extends E{
-    boolean k;
-
-    F(){
-        super();
-        this.k = false;
-    }
+    boolean d;
 
     F(String a, double b, int c, boolean d){
         super(a,b,c);
-        this.k = d;
+        this.d = d;
     }
 }
 
-public class Ex5 {
-    public Ex5() {
+class Ex5 {
+    Ex5() {
     }
 
     public static void main(String args[]){
-        E obj1 = new E();
+        E obj1 = new E("a",4.0,4);
         E obj2 = new E("b",3.0,2);
-        F obj3 = new F();
+        F obj3 = new F("c",3.0,2,true);
     }
 }

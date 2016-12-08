@@ -1,0 +1,4 @@
+Linha 23: erro sintatico funcao de atribuicao nao encotrada
+Linha 27: erro sintatico tipo incompativel
+Linha 28: erro sintatico variavel inexistente
+Fim da compilacao
