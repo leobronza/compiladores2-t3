@@ -29,6 +29,7 @@ class F extends E{
         this.k = d;
     }
 }
+
 public class Ex5 {
     public Ex5() {
     }

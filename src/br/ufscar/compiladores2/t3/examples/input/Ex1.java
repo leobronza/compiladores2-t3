@@ -10,10 +10,18 @@ class A{
     double y;
     int z;
 
-    A(){
-        this.x = "a";
-        this.y = 2.0;
-        this.z = 1;
+    A(String x, double y, int z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+
+class B extends A {
+    double h;
+    N(String x, double y, int z, double h) {
+        super(x, y, z);
+        this.h = h;
     }
 }
 
@@ -22,7 +30,7 @@ class Ex1 {
     }
 
     public static void main(String args[]){
-        A obj1 = new A();
+        A obj1 = new A("abc", 1.2, aa);
     }
 }
 

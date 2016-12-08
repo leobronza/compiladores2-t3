@@ -10,16 +10,13 @@ class_body :
     variables* constructors+ function_main?;
 
 variables :
-    type IDENT mais_var ';';
-
-mais_var: ',' IDENT mais_var |
-;
+    type id1=IDENT (',' id2=IDENT)* ';';
 
 constructors :
-    modifiers IDENT '(' (arguments) ')' '{' constructor_body '}' ;
+    modifiers IDENT '(' parameters? ')' '{' constructor_body '}' ;
 
 constructor_body :
-    ('super('parametros')' ';')?
+    ('super('arguments')' ';')?
     assignment*;
 
 assignment :
@@ -28,9 +25,8 @@ assignment :
 attribute :
     ('this' '.')? IDENT/*variaveis da classe*/;
 
-arguments:
-    type IDENT (',' arguments)* | /* nome do argumento*/
-    ;
+parameters:
+    t1=type id1=IDENT (',' t2=type id2=IDENT)* ;
 
 type:
     'String' | 'int' | 'float' | 'boolean' | IDENT/* Uma classe criada pode ser um tipo para uma variavel de outra classe*/ ;
@@ -45,14 +41,19 @@ modifiers:
 
 function_body:
     variables*
-    (IDENT/*tipo*/ IDENT /*objeto*/ '=' 'new' IDENT /*construtor*/ '(' (parametros) ')' ';' )+
+    (IDENT/*tipo*/ IDENT /*objeto*/ '=' 'new' IDENT /*construtor*/ '(' (arguments)? ')' ';' )+
     /* aqui são as variaveis que serão passadas por parametro para o construtor*/
     ;
 
-parametros:
-    ((IDENT | NUM_FLOAT | NUM_INT | STRING)(',' (IDENT | NUM_FLOAT | NUM_INT | STRING))*) |
+arguments:
+    v1=value (',' v2=value)*
     /* Aqui são as variaveis declaradas em function_body*/
 ;
+
+value:
+    IDENT | NUM_FLOAT | NUM_INT | STRING
+;
+
 IDENT:
     ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
 
