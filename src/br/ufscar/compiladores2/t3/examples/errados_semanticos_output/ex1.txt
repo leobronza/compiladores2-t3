@@ -1,0 +1,2 @@
+Linha 8: erro semantico esperado double, recebido string
+Fim da compilacao
