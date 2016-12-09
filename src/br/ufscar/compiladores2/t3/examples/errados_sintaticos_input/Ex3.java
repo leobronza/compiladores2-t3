@@ -2,7 +2,7 @@ class C{
 
     String x;
     double y;
-    int z;
+    nt z;
 
     C(String a, double b, int c){
         this.x = a;

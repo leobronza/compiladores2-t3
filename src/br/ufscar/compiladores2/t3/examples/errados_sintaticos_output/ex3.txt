@@ -1,4 +1,2 @@
-Linha 3: erro sintatico tipo inexistente
-Linha 22: erro sintatico tipo indefinido
-Linha 23: erro sintatico tipo indefinido
+Linha 5: erro sintatico proximo a 'z'
 Fim da compilacao

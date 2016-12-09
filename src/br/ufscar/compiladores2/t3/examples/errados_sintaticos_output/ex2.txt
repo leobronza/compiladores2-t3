@@ -1,3 +1,2 @@
-Linha 7: erro sintatico falta do ';'
-Linha 17: erro sintatico parametros nao esperados
+Linha 13: erro sintatico proximo a 'lass'
 Fim da compilacao

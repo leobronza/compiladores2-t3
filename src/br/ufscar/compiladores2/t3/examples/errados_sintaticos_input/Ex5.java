@@ -3,7 +3,7 @@ class E{
     double y;
     int z;
 
-    E(String a, double b, int c){
+    E(String a, double b, int ){
         this.x = a;
         this.y = b;
         this.z = c;

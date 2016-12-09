@@ -3,7 +3,7 @@ class G{
     float y;
     int z;
 
-    G(String a, float b,int c){
+    G( a, float b,int c){
         this.x = a;
         this.y = b;
         this.z = c;

@@ -1,4 +1,2 @@
-Linha 23: erro sintatico funcao de atribuicao nao encotrada
-Linha 27: erro sintatico tipo incompativel
-Linha 28: erro sintatico variavel inexistente
+Linha 17: erro sintatico proximo a 'boolean'
 Fim da compilacao

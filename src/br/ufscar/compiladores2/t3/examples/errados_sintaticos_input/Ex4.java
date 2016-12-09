@@ -14,7 +14,7 @@ class Ex4 {
     boolean c;
     String d;
 
-    Ex4(int a, int b, boolean c, String d) {
+    Ex4(int a, int b boolean c, String d) {
         this.a = a;
         this.b = b;
         this.c = c;
