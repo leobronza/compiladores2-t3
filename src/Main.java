@@ -12,7 +12,7 @@ import  br.ufscar.compiladores2.t3.antlr.*;
 
 public class Main {
     private final static String CAMINHO_CASOS_TESTE =
-            "D:\\OneDrive\\UFSCar\\6° Semestre\\CC II\\T3\\compiladores2-t3\\src\\br\\ufscar\\compiladores2\\t3\\examples\\errados_sintaticos_input";
+            "/media/leo/421B33D37F4D6D97/Comp2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/errados_sintaticos_input";
 
     public static void main(String[] args) throws IOException, RecognitionException, NullPointerException{
         File diretorioCasosTeste = new File(CAMINHO_CASOS_TESTE);
