@@ -20,3 +20,5 @@ hs_err_pid*
 !/src/br/ufscar/compiladores2/t3/antlr/jaSON.g4
 !/src/br/ufscar/compiladores2/t3/antlr/AnalisadorSemantico.java
 /out/
+
+!/lib/*
