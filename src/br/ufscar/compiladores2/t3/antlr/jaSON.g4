@@ -4,9 +4,9 @@ program :
     (class_definition)*;
 
 class_definition :
-    'class' IDENT ('extends' IDENT)? '{' class_body '}';
+    'class' classe=IDENT ('extends' classExtended=IDENT)? '{' class_body '}';
 
-class_body :
+class_body:
     variables* constructors? function_main?;
 
 variables :

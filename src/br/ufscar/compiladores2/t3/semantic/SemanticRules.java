@@ -5,28 +5,58 @@ package br.ufscar.compiladores2.t3.semantic;
  */
 
 import br.ufscar.compiladores2.t3.antlr.*;
+import br.ufscar.compiladores2.t3.semantic.util.PilhaDeTabelas;
+import br.ufscar.compiladores2.t3.semantic.util.TabelaDeSimbolos;
+import javafx.scene.control.Tab;
 
 public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
+    private PilhaDeTabelas pt;
+
     @Override
     public String[] visitProgram(jaSONParser.ProgramContext ctx) {
-        System.out.println("foi");
+        pt = new PilhaDeTabelas();
+        pt.empilhar(new TabelaDeSimbolos("global"));
+
+        for (jaSONParser.Class_definitionContext  cdc: ctx.class_definition()){
+            visitClass_definition(cdc);
+        }
         return null;
     }
 
     @Override
     public String[] visitClass_definition(jaSONParser.Class_definitionContext ctx) {
-        return super.visitClass_definition(ctx);
+        TabelaDeSimbolos escopoAtual = pt.topo();
+
+        if(ctx.classExtended != null){ //se for uma classe extendida
+            escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
+        }else {
+            escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe");
+        }
+        System.out.println(escopoAtual); //TODO retirar
+        visitClass_body(ctx.class_body());
+
+        return null;
     }
 
     @Override
     public String[] visitClass_body(jaSONParser.Class_bodyContext ctx) {
-        return super.visitClass_body(ctx);
+
+        for (jaSONParser.VariablesContext  variable: ctx.variables()){
+            visitVariables(variable);
+        }
+        //todo implementar construtor e main
+
+        return null;
     }
 
     @Override
     public String[] visitVariables(jaSONParser.VariablesContext ctx) {
-        return super.visitVariables(ctx);
+        TabelaDeSimbolos escopoAtual = pt.topo();
+        String type = visitType(ctx.type())[1];
+
+        escopoAtual.adicionarSimbolo(ctx.id1.getText(),type);
+        return null;
     }
 
     @Override
@@ -56,7 +86,8 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
     @Override
     public String[] visitType(jaSONParser.TypeContext ctx) {
-        return super.visitType(ctx);
+        String[] s = {"false", ctx.getText()};
+        return s;
     }
 
     @Override

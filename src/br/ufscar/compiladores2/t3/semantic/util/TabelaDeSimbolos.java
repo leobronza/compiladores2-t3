@@ -25,22 +25,19 @@ public class TabelaDeSimbolos {
         simbolos.add(new EntradaTabelaDeSimbolos(nome,tipo));
     }
 
-    public void adicionarSimbolo(String nome, String tipo, boolean ehPoteiro) {
-
-        simbolos.add(new EntradaTabelaDeSimbolos(nome,tipo, ehPoteiro));
-    }
-
     public void adicionarSimbolo(EntradaTabelaDeSimbolos edts) {
-
         simbolos.add(edts);
     }
-    
-    public void adicionarSimbolos(List<String> nomes, String tipo) {
-        for(String s:nomes) {
-            simbolos.add(new EntradaTabelaDeSimbolos(s, tipo));
-        }
+
+    public void adicionarSimbolo(String nome, String tipo, String classe) {
+
+        simbolos.add(new EntradaTabelaDeSimbolos(nome,tipo, classe));
     }
 
+    public void adicionarSimbolo(String nome, String tipo, String classe, String classeHerdada) {
+
+        simbolos.add(new EntradaTabelaDeSimbolos(nome,tipo, classe, classeHerdada));
+    }
 
     /*
     * Retorna a ultima posicao da tabela ocupada por um simbolo, retorna -1 se a tabela estiver vazia
@@ -72,21 +69,6 @@ public class TabelaDeSimbolos {
         return false;
     }
 
-    public boolean existeSimboloNoTipo(String nameAtribuicao, String campo1){
-        for(EntradaTabelaDeSimbolos etds:simbolos) {
-            if(etds.getNome().equals(nameAtribuicao)) {
-//                if(!etds.getTipo().getValor().equals("registro")){
-                    for(String k : etds.getTipo().getCampos().keySet()){
-                        if(k.equals(campo1)){
-                            return true;
-                        }
-                    }
-//                }
-            }
-        }
-        return false;
-    }
-
     //Verifica se na tabela de simbolos existe um simbolo com o nome X e tipo Y
     public boolean existeSimboloComTipo(String nome, String tipo) {
         for(EntradaTabelaDeSimbolos etds:simbolos) {
@@ -97,16 +79,7 @@ public class TabelaDeSimbolos {
         return false;
     }
 
-    public String getValorTipoSimbolo(String nome) {
-        for(EntradaTabelaDeSimbolos etds:simbolos) {
-            if(etds.getNome().equals(nome)) {
-                return etds.getValorTipo();
-            }
-        }
-        return null;
-    }
-
-    public Tipo getTipoSimbolo(String nome) {
+    public String getTipoSimbolo(String nome) {
         for(EntradaTabelaDeSimbolos etds:simbolos) {
             if(etds.getNome().equals(nome)) {
                 return etds.getTipo();
@@ -128,7 +101,6 @@ public class TabelaDeSimbolos {
         }
     }
 
-
     /*
     * Retorna o nome de um simbolo na posicao indicada. Retorna null se a posicao nao existe
     * */
@@ -139,15 +111,6 @@ public class TabelaDeSimbolos {
        }else{
            return null;
        }
-    }
-
-    public boolean ehPonteiro(String nome) {
-        for(EntradaTabelaDeSimbolos etds:simbolos) {
-            if(etds.getNome().equals(nome)) {
-                return etds.isEhPonteiro();
-            }
-        }
-        return false;
     }
 
     @Override

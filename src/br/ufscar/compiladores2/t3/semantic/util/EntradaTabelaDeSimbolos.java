@@ -11,86 +11,64 @@ import java.util.HashMap;
  * @author daniel
  */
 public class EntradaTabelaDeSimbolos {
-    private String nome;
-    private  Tipo tipo;
-    private boolean  ehPonteiro;
-    
+    private  String nome;
+    private  String tipo;
+    private  String classe;
+    private  String  classeHerdada;
+
     public EntradaTabelaDeSimbolos(String nome, String tipo) {
         this.nome = nome;
-        this.tipo = new Tipo(tipo); //setando o valor do tipo
-        this.ehPonteiro = false;
+        this.tipo = tipo; //setando o valor do tipo
+        this.classe =  null;
+        this.classeHerdada = null;
     }
 
-    public EntradaTabelaDeSimbolos(String nome, String tipo, boolean ehPonteiro) {
+    public EntradaTabelaDeSimbolos(String nome, String tipo, String classe) {
         this.nome = nome;
-        this.tipo = new Tipo(tipo);
-        this.ehPonteiro = ehPonteiro;
+        this.tipo = tipo; //setando o valor do tipo
+        this.classe = classe;
+        this.classeHerdada = null;
     }
 
-    public EntradaTabelaDeSimbolos(String nome, Tipo t) {
+    public EntradaTabelaDeSimbolos(String nome, String tipo, String classe, String classeHerdada) {
         this.nome = nome;
-        this.tipo = new Tipo(t.getValor());
-        this.ehPonteiro = false;
-        if(t.ehTipoComplexo()) {
-            for (String k : t.getCampos().keySet()) {
-                this.addCampoNoTipo(k, t.getCampos().get(k));
-            }
-        }
-    }
-
-    public EntradaTabelaDeSimbolos(EntradaTabelaDeSimbolos etds) {
-        this.nome = etds.getNome();
-        this.tipo = new Tipo(etds.getValorTipo());
-        this.ehPonteiro = etds.isEhPonteiro();
-        if(etds.getTipo().ehTipoComplexo()) {
-            for (String k : etds.getTipo().getCampos().keySet()) {
-                this.addCampoNoTipo(k, etds.getTipo().getCampos().get(k));
-
-            }
-        }
+        this.tipo = tipo; //setando o valor do tipo
+        this.classe = classe;
+        this.classeHerdada = classeHerdada;
     }
     
     public String getNome() {
         return nome;
-    }
-    
-    public String getValorTipo() {
-        return tipo.toString();
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public void setValueTipo(String tipo) {
-        this.tipo.setValor(tipo);
-    }
-
-    public Tipo getTipo(){
+    public String getTipo(){
         return this.tipo;
     }
 
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    //valor é o tipo do campo e nome o nome: Ex. x:real
-    public boolean addCampoNoTipo(String name, String valor){
-        return  this.tipo.addCampo(name, valor);
+    public String getClasse() {
+        return classe;
     }
 
-
-    public void setEhPonteiro(boolean ehPonteiro) {
-        this.ehPonteiro = ehPonteiro;
-    }
-    
-    
-
-    public boolean isEhPonteiro() {
-        return ehPonteiro;
+    public void setClasse(String classe) {
+        this.classe = classe;
     }
 
+    public String getClasseHerdada() {
+        return classeHerdada;
+    }
 
+    public void setClasseHerdada(String classeHerdada) {
+        this.classeHerdada = classeHerdada;
+    }
 
     @Override
     public String toString() {
-        return nome+"("+tipo.toString()+")";
+        return nome+" | "+tipo.toString()+" | "+classe+" | "+classeHerdada;
     }
 }

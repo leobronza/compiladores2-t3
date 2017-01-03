@@ -1,5 +1,3 @@
-package br.ufscar.compiladores2.t3;
-
 import br.ufscar.compiladores2.t3.antlr.jaSONLexer;
 import br.ufscar.compiladores2.t3.antlr.jaSONParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
