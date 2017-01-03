@@ -2,7 +2,7 @@ class C{
 
     String x;
     double y;
-    nt z;
+    int int z;
 
     C(String a, double b, int c){
         this.x = a;
@@ -10,6 +10,7 @@ class C{
         this.z = c;
     }
 }
+
 class Ex3 {
 
     Ex3() {

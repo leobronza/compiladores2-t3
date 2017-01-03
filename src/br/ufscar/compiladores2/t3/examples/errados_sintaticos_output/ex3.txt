@@ -1,2 +1,2 @@
-Linha 5: erro sintatico proximo a 'z'
+Linha 5: esperava um IDENT mas eh um int
 Fim da compilacao
