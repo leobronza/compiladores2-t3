@@ -8,7 +8,11 @@ import br.ufscar.compiladores2.t3.antlr.*;
 import br.ufscar.compiladores2.t3.semantic.util.EntradaTabelaDeSimbolos;
 import br.ufscar.compiladores2.t3.semantic.util.PilhaDeTabelas;
 import br.ufscar.compiladores2.t3.semantic.util.TabelaDeSimbolos;
+import com.sun.javafx.fxml.expression.Expression;
 import javafx.scene.control.Tab;
+import jdk.nashorn.internal.ir.Assignment;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
@@ -43,7 +47,6 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
             escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe");
         }
         visitClass_body(ctx.class_body());
-        System.out.println(escopoAtual); //TODO retirar
 
         return null;
     }
@@ -75,27 +78,110 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
     @Override
     public String[] visitConstructors(jaSONParser.ConstructorsContext ctx) {
-        return null;
+        TabelaDeSimbolos escopoAtual = pt.topo();
+
+        if(escopoAtual.getUltimaClasseDeclarada().equals(ctx.IDENT().toString()) ){
+            if(ctx.parameters() != null){
+                visitParameters(ctx.parameters());
+            }
+            visitConstructor_body(ctx.constructor_body());
+        }else{
+            System.out.println("Linha "+ ctx.getStart().getLine() +": Construtor nao compativel com a classe");
+        }
+            return null;
     }
 
     @Override
     public String[] visitConstructor_body(jaSONParser.Constructor_bodyContext ctx) {
-        return super.visitConstructor_body(ctx);
+
+        for (jaSONParser.AssignmentContext context: ctx.assignment()){
+            visitAssignment(context);
+        }
+        //TODO verificar super
+
+        pt.desempilhar();
+        return null;
     }
 
     @Override
     public String[] visitAssignment(jaSONParser.AssignmentContext ctx) {
-        return super.visitAssignment(ctx);
+        TabelaDeSimbolos parameters = pt.topo();
+        String type = null;
+
+        //se existe parametro
+        if(parameters.getEscopo().equalsIgnoreCase("parameters")){
+            //1. verificar se o parametro existe, se eh igual ao
+
+            //   eh atribuição de variável para variável
+            if(ctx.IDENT().toString() != null) {
+                if(!parameters.existeSimbolo(ctx.IDENT().toString())){
+                    System.out.println("Linha "+ ctx.getStart().getLine() +": Variável não declarada como parametro");
+                }else{
+                    type = parameters.getTipoSimbolo(ctx.IDENT().toString());
+                }
+            }else if(ctx.STRING() != null){
+                type = "String";
+            }else if(ctx.NUM_INT() != null) {
+                type = "int";
+            }else if(ctx.NUM_FLOAT() != null){
+                type = "float";
+            }else if(ctx.BOOLEAN() != null){
+                type = "boolean";
+            }
+
+            //2. vefiricar se o atributo existe, se eh igual ao ident
+            String ret[] = visitAttribute(ctx.attribute());
+            if(ret[0].equalsIgnoreCase("true")){
+                //3. verificar se o parametro e o atributo sao do mesmo tipo
+                if(!ret[1].equalsIgnoreCase(type)){
+                    System.out.println("Linha "+ ctx.getStart().getLine() +": Tipo de atribuição não compatível");
+                }
+            }
+        }
+        return null;
     }
 
     @Override
     public String[] visitAttribute(jaSONParser.AttributeContext ctx) {
-        return super.visitAttribute(ctx);
+        boolean existe = false;
+        String[] s = {"false", null};
+        TabelaDeSimbolos global = pt.getGlobalTable(0);
+
+        //pega a ultima classe declarada, que é a classe do construtor
+        String classe = global.getUltimaClasseDeclarada();
+        //atributos da classe q eh do construtor
+        List<EntradaTabelaDeSimbolos> list =  global.getTodasEntradaDaClasse(classe);
+
+        for (EntradaTabelaDeSimbolos e: list){
+            if(e.getNome().equals(ctx.IDENT().toString())){
+                s[0] = "true";
+                s[1] = e.getTipo();
+                existe = true;
+            }
+        }
+
+        if(!existe){
+            System.out.println("Linha "+ ctx.getStart().getLine() +": Atributo não declarado na classe");
+        }
+
+        return s;
     }
 
     @Override
     public String[] visitParameters(jaSONParser.ParametersContext ctx) {
-        return super.visitParameters(ctx);
+        TabelaDeSimbolos parameters = new TabelaDeSimbolos("parameters");
+
+        //add os parametros na tabela
+        String type = null;
+        String id = null;
+        for(int i =0;i<ctx.IDENT().size();i++){
+            type = visitType(ctx.type(i))[1];
+            id = ctx.IDENT(i).toString();
+            parameters.adicionarSimbolo(id,type);
+        }
+
+        pt.empilhar(parameters);
+        return null;
     }
 
     @Override

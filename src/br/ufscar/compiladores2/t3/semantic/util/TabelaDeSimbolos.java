@@ -48,7 +48,7 @@ public class TabelaDeSimbolos {
 
     public String getUltimaClasseDeclarada(){
         int i = getUltimaPosicaoOcupada();
-        if(simbolos.get(i).getTipo() == "classe"){
+        if(simbolos.get(i).getTipo().equalsIgnoreCase("classe")){
             return simbolos.get(i).getNome();
         }else{
             return simbolos.get(i).getClasse();
@@ -122,6 +122,7 @@ public class TabelaDeSimbolos {
        }
     }
 
+
     public List<EntradaTabelaDeSimbolos> getTodasEntradaDaClasse(String classe){
         List<EntradaTabelaDeSimbolos> syn = new ArrayList<>();
 
@@ -132,6 +133,10 @@ public class TabelaDeSimbolos {
         }
 
         return syn;
+    }
+
+    public String getEscopo() {
+        return escopo;
     }
 
     @Override

@@ -20,14 +20,14 @@ constructor_body :
     ('super('arguments')' ';')?
     assignment*; //pode ter funcao***********************
 
-assignment :
+assignment  :
     attribute '=' (IDENT /*argumentos do construtor*/ | STRING | NUM_INT | NUM_FLOAT | BOOLEAN) ';' ;
 
 attribute :
     ('this' '.')? IDENT/*variaveis da classe*/;
 
 parameters:
-    t1=type id1=IDENT (',' t2=type id2=IDENT)* ;
+    t1=type id1=IDENT (',' t2=type id2+=IDENT)* ;
 
 type:
     'String' | 'int' | 'float' | 'boolean' | 'double' ;
