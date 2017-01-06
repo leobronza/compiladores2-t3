@@ -46,6 +46,15 @@ public class TabelaDeSimbolos {
         return (simbolos.size()==0)? -1: simbolos.size()-1;
     }
 
+    public String getUltimaClasseDeclarada(){
+        int i = getUltimaPosicaoOcupada();
+        if(simbolos.get(i).getTipo() == "classe"){
+            return simbolos.get(i).getNome();
+        }else{
+            return simbolos.get(i).getClasse();
+        }
+    }
+
     /*
     * Editar o nome de um simbolo na posicao indicada. Retorna falso se a posicao não existe
     * */
@@ -111,6 +120,18 @@ public class TabelaDeSimbolos {
        }else{
            return null;
        }
+    }
+
+    public List<EntradaTabelaDeSimbolos> getTodasEntradaDaClasse(String classe){
+        List<EntradaTabelaDeSimbolos> syn = new ArrayList<>();
+
+        for (EntradaTabelaDeSimbolos e: simbolos){
+            if(e.getClasse() != null && e.getClasse().equalsIgnoreCase(classe)){
+                syn.add(e);
+            }
+        }
+
+        return syn;
     }
 
     @Override

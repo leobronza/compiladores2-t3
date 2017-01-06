@@ -9,7 +9,7 @@ class_definition :
 class_body:
     variables* constructors? function_main?;
 
-variables :
+variables:
     type id1=IDENT (',' id2=IDENT)* ';';
 
 constructors :

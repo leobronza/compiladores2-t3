@@ -5,9 +5,12 @@ package br.ufscar.compiladores2.t3.semantic;
  */
 
 import br.ufscar.compiladores2.t3.antlr.*;
+import br.ufscar.compiladores2.t3.semantic.util.EntradaTabelaDeSimbolos;
 import br.ufscar.compiladores2.t3.semantic.util.PilhaDeTabelas;
 import br.ufscar.compiladores2.t3.semantic.util.TabelaDeSimbolos;
 import javafx.scene.control.Tab;
+
+import java.util.List;
 
 public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
@@ -30,21 +33,31 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
         if(ctx.classExtended != null){ //se for uma classe extendida
             escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
+
+            List<EntradaTabelaDeSimbolos> listaDeVariaveis = escopoAtual.getTodasEntradaDaClasse(ctx.classExtended.getText());
+            for (EntradaTabelaDeSimbolos e: listaDeVariaveis){
+                escopoAtual.adicionarSimbolo(e.getNome(),e.getTipo(),ctx.classe.getText(),ctx.classExtended.getText());
+            }
+
         }else {
             escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe");
         }
-        System.out.println(escopoAtual); //TODO retirar
         visitClass_body(ctx.class_body());
+        System.out.println(escopoAtual); //TODO retirar
 
         return null;
     }
 
     @Override
     public String[] visitClass_body(jaSONParser.Class_bodyContext ctx) {
-
         for (jaSONParser.VariablesContext  variable: ctx.variables()){
             visitVariables(variable);
         }
+
+        if(ctx.constructors() != null){
+            visitConstructors(ctx.constructors());
+        }
+
         //todo implementar construtor e main
 
         return null;
@@ -54,14 +67,15 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
     public String[] visitVariables(jaSONParser.VariablesContext ctx) {
         TabelaDeSimbolos escopoAtual = pt.topo();
         String type = visitType(ctx.type())[1];
+        String classe = escopoAtual.getUltimaClasseDeclarada();
+        escopoAtual.adicionarSimbolo(ctx.id1.getText(),type, classe, null);
 
-        escopoAtual.adicionarSimbolo(ctx.id1.getText(),type);
         return null;
     }
 
     @Override
     public String[] visitConstructors(jaSONParser.ConstructorsContext ctx) {
-        return super.visitConstructors(ctx);
+        return null;
     }
 
     @Override
