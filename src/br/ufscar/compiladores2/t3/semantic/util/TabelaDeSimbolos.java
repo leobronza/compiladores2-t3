@@ -88,9 +88,28 @@ public class TabelaDeSimbolos {
         return false;
     }
 
+    //Verifica se na tabela de simbolos existe um simbolo com o nome X e tipo Y
+    public boolean existeSimboloComClasse(String nome, String classe) {
+        for(EntradaTabelaDeSimbolos etds:simbolos) {
+            if(etds.getNome().equals(nome) && etds.getClasse().equals(classe)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getTipoSimbolo(String nome) {
         for(EntradaTabelaDeSimbolos etds:simbolos) {
             if(etds.getNome().equals(nome)) {
+                return etds.getTipo();
+            }
+        }
+        return null;
+    }
+
+    public String getTipoSimboloComClasse(String nome, String classe) {
+        for(EntradaTabelaDeSimbolos etds:simbolos) {
+            if(etds.getNome().equals(nome) && etds.getClasse().equals(classe)) {
                 return etds.getTipo();
             }
         }

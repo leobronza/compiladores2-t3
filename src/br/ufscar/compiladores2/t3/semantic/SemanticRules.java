@@ -19,11 +19,13 @@ import java.util.List;
 public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
     private PilhaDeTabelas pt;
+    private TabelaDeSimbolos class_parameters;
 
     @Override
     public String[] visitProgram(jaSONParser.ProgramContext ctx) {
         pt = new PilhaDeTabelas();
         pt.empilhar(new TabelaDeSimbolos("global"));
+        class_parameters = new TabelaDeSimbolos("ClassParameters");
 
         for (jaSONParser.Class_definitionContext  cdc: ctx.class_definition()){
             visitClass_definition(cdc);
@@ -37,6 +39,7 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
         if(ctx.classExtended != null){ //se for uma classe extendida
             escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
+            class_parameters.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
 
             List<EntradaTabelaDeSimbolos> listaDeVariaveis = escopoAtual.getTodasEntradaDaClasse(ctx.classExtended.getText());
             for (EntradaTabelaDeSimbolos e: listaDeVariaveis){
@@ -45,6 +48,8 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
         }else {
             escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe");
+            class_parameters.adicionarSimbolo(ctx.classe.getText(), "classe");
+
         }
         visitClass_body(ctx.class_body());
 
@@ -98,44 +103,38 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
             visitAssignment(context);
         }
         //TODO verificar super
-
-        pt.desempilhar();
         return null;
     }
 
     @Override
     public String[] visitAssignment(jaSONParser.AssignmentContext ctx) {
-        TabelaDeSimbolos parameters = pt.topo();
         String type = null;
+        String classe = pt.topo().getUltimaClasseDeclarada();
 
-        //se existe parametro
-        if(parameters.getEscopo().equalsIgnoreCase("parameters")){
-            //1. verificar se o parametro existe, se eh igual ao
-
-            //   eh atribuição de variável para variável
-            if(ctx.IDENT().toString() != null) {
-                if(!parameters.existeSimbolo(ctx.IDENT().toString())){
-                    System.out.println("Linha "+ ctx.getStart().getLine() +": Variável não declarada como parametro");
-                }else{
-                    type = parameters.getTipoSimbolo(ctx.IDENT().toString());
-                }
-            }else if(ctx.STRING() != null){
-                type = "String";
-            }else if(ctx.NUM_INT() != null) {
-                type = "int";
-            }else if(ctx.NUM_FLOAT() != null){
-                type = "float";
-            }else if(ctx.BOOLEAN() != null){
-                type = "boolean";
+        //1. verificar se o parametro existe, se eh igual ao
+        //   eh atribuição de variável para variável
+        if(ctx.IDENT().toString() != null) {
+            if(!class_parameters.existeSimboloComClasse(ctx.IDENT().toString(),classe)){
+                System.out.println("Linha "+ ctx.getStart().getLine() +": Variável não declarada como parametro");
+            }else{
+                type = class_parameters.getTipoSimboloComClasse(ctx.IDENT().toString(),classe);
             }
+        }else if(ctx.STRING() != null){
+            type = "String";
+        }else if(ctx.NUM_INT() != null) {
+            type = "int";
+        }else if(ctx.NUM_FLOAT() != null){
+            type = "float";
+        }else if(ctx.BOOLEAN() != null){
+            type = "boolean";
+        }
 
-            //2. vefiricar se o atributo existe, se eh igual ao ident
-            String ret[] = visitAttribute(ctx.attribute());
-            if(ret[0].equalsIgnoreCase("true")){
-                //3. verificar se o parametro e o atributo sao do mesmo tipo
-                if(!ret[1].equalsIgnoreCase(type)){
-                    System.out.println("Linha "+ ctx.getStart().getLine() +": Tipo de atribuição não compatível");
-                }
+        //2. vefiricar se o atributo existe, se eh igual ao ident
+        String ret[] = visitAttribute(ctx.attribute());
+        if(ret[0].equalsIgnoreCase("true")){
+            //3. verificar se o parametro e o atributo sao do mesmo tipo
+            if(!ret[1].equalsIgnoreCase(type)){
+                System.out.println("Linha "+ ctx.getStart().getLine() +": Tipo de atribuição não compatível");
             }
         }
         return null;
@@ -169,7 +168,7 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
     @Override
     public String[] visitParameters(jaSONParser.ParametersContext ctx) {
-        TabelaDeSimbolos parameters = new TabelaDeSimbolos("parameters");
+        String classe = pt.topo().getUltimaClasseDeclarada();
 
         //add os parametros na tabela
         String type = null;
@@ -177,10 +176,9 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
         for(int i =0;i<ctx.IDENT().size();i++){
             type = visitType(ctx.type(i))[1];
             id = ctx.IDENT(i).toString();
-            parameters.adicionarSimbolo(id,type);
+            class_parameters.adicionarSimbolo(id,type,classe);
         }
 
-        pt.empilhar(parameters);
         return null;
     }
 
