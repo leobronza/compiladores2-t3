@@ -148,7 +148,7 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
     public String[] visitAttribute(jaSONParser.AttributeContext ctx) {
         boolean existe = false;
         String[] s = {"false", null};
-        TabelaDeSimbolos global = pt.getGlobalTable(0);
+        TabelaDeSimbolos global = pt.getGlobalTable();
 
         //pega a ultima classe declarada, que é a classe do construtor
         String classe = global.getUltimaClasseDeclarada();
@@ -202,39 +202,79 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
     @Override
     public String[] visitFunction_body(jaSONParser.Function_bodyContext ctx) {
+        TabelaDeSimbolos main = new TabelaDeSimbolos("main");
+        pt.empilhar(main);
+
         for (jaSONParser.Object_declarationContext obj: ctx.object_declaration()){
             visitObject_declaration(obj);
         }
+
+        pt.desempilhar();
         return null;
     }
 
     @Override
     public String[] visitObject_declaration(jaSONParser.Object_declarationContext ctx) {
-        TabelaDeSimbolos escopoGlobal = pt.topo();
-
-
-        System.out.println(escopoGlobal);
-        System.out.println(ctx.t1.getText());
+        TabelaDeSimbolos escopoGlobal = pt.getGlobalTable();
+        TabelaDeSimbolos main = pt.topo();
 
         //  verifica se existe a classe
         if(escopoGlobal.existeSimboloComTipo(ctx.t1.getText(),"classe")){
-            System.out.println("existe");
-
+            main.adicionarSimbolo(ctx.t1.getText(),"classe");
+            visitArguments(ctx.arguments());
         }else{
             System.out.println("Linha "+ ctx.getStart().getLine() +": Classe não existe");
         }
-
 
         return null;
     }
 
     @Override
     public String[] visitArguments(jaSONParser.ArgumentsContext ctx) {
-        return super.visitArguments(ctx);
+        TabelaDeSimbolos main = pt.topo();
+        String classe = main.getUltimaClasseDeclarada();
+        String[] value;
+
+        // pega todos os parametros do construtor da classe
+        List<EntradaTabelaDeSimbolos> params = class_parameters.getTodasEntradaDaClasse(classe);
+
+        for(int i =0;i<ctx.value().size();i++){
+            value = visitValue(ctx.value(i));
+            if(value != null){
+                if(!value[1].equalsIgnoreCase("Ident")){
+                    if(!params.get(i).getTipo().equalsIgnoreCase(value[1])){
+                        System.out.println("Linha "+ ctx.getStart().getLine() +": Parametros não compatível com o construtor");
+                        break;
+                    }
+                }else{
+                    System.out.println("erro nao eh ident");
+                }
+            }
+        }
+
+
+
+
+        return null;
     }
 
     @Override
     public String[] visitValue(jaSONParser.ValueContext ctx) {
-        return super.visitValue(ctx);
+        String[] s = {"true",null};
+        if (ctx.IDENT() != null) {
+            s[1] = "ident";
+            return s;
+        }else if(ctx.STRING() != null){
+            s[1] = "String";
+            return s;
+        }else if(ctx.NUM_FLOAT() != null){
+            s[1] = "double";
+            return s;
+        }else if(ctx.NUM_INT() != null){
+            s[1] = "int";
+            return s;
+        }
+
+        return null;
     }
 }

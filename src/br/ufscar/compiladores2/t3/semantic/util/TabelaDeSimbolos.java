@@ -140,8 +140,7 @@ public class TabelaDeSimbolos {
            return null;
        }
     }
-
-
+    //retorna todos as entradas com o atributo classe = ao especificado
     public List<EntradaTabelaDeSimbolos> getTodasEntradaDaClasse(String classe){
         List<EntradaTabelaDeSimbolos> syn = new ArrayList<>();
 

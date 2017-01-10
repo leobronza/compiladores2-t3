@@ -27,7 +27,7 @@ public class PilhaDeTabelas {
         return pilha.peek();
     }
 
-    public  TabelaDeSimbolos getGlobalTable(int i){
+    public  TabelaDeSimbolos getGlobalTable(){
         return pilha.peekLast();
     }
 
