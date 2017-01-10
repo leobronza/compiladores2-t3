@@ -1,14 +1,13 @@
-import org.antlr.v4.runtime.*;
+import br.ufscar.compiladores2.t3.antlr.jaSONLexer;
+import br.ufscar.compiladores2.t3.antlr.jaSONParser;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-import  br.ufscar.compiladores2.t3.antlr.*;
 
 public class Main {
     private final static String CAMINHO_CASOS_TESTE =
