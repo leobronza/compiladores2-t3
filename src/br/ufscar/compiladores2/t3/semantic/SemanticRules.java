@@ -38,12 +38,17 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
         TabelaDeSimbolos escopoAtual = pt.topo();
 
         if(ctx.classExtended != null){ //se for uma classe extendida
-            escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
-            class_parameters.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
+            if (escopoAtual.existeSimbolo(ctx.classExtended.getText())){
+                escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
+                class_parameters.adicionarSimbolo(ctx.classe.getText(), "classe",ctx.classe.getText(), ctx.classExtended.getText());
 
-            List<EntradaTabelaDeSimbolos> listaDeVariaveis = escopoAtual.getTodasEntradaDaClasse(ctx.classExtended.getText());
-            for (EntradaTabelaDeSimbolos e: listaDeVariaveis){
-                escopoAtual.adicionarSimbolo(e.getNome(),e.getTipo(),ctx.classe.getText(),ctx.classExtended.getText());
+                List<EntradaTabelaDeSimbolos> listaDeVariaveis = escopoAtual.getTodasEntradaDaClasse(ctx.classExtended.getText());
+                for (EntradaTabelaDeSimbolos e: listaDeVariaveis){
+                    escopoAtual.adicionarSimbolo(e.getNome(),e.getTipo(),ctx.classe.getText(),ctx.classExtended.getText());
+                }
+            }else{
+                System.out.println("Linha "+ ctx.getStart().getLine() +": Classe herdada não existe");
+
             }
 
         }else {
