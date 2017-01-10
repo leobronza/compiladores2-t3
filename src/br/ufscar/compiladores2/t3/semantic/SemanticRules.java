@@ -80,7 +80,9 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
         TabelaDeSimbolos escopoAtual = pt.topo();
         String type = visitType(ctx.type())[1];
         String classe = escopoAtual.getUltimaClasseDeclarada();
-        escopoAtual.adicionarSimbolo(ctx.id1.getText(),type, classe, null);
+        for(TerminalNode tn : ctx.IDENT() ){
+            escopoAtual.adicionarSimbolo(tn.toString(), type, classe, null);
+        }
 
         return null;
     }
@@ -102,6 +104,20 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
     @Override
     public String[] visitConstructor_body(jaSONParser.Constructor_bodyContext ctx) {
+        TabelaDeSimbolos escopoAtual = pt.topo();
+
+        if(escopoAtual.getUltimaClasseDeclarada2().getClasseHerdada() != null) {
+            if(ctx.arguments() != null){
+                visitArguments(ctx.arguments());
+            }else{
+                System.out.println("Linha "+ ctx.getStart().getLine() +": Classe herdada sem metodo super");
+
+            }
+        }else{
+            if(ctx.arguments() != null) {
+                System.out.println("Linha "+ ctx.getStart().getLine() +":Classe nao herdada com metodo super");
+            }
+        }
 
         for (jaSONParser.AssignmentContext context: ctx.assignment()){
             visitAssignment(context);
@@ -117,12 +133,13 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
         //1. verificar se o parametro existe, se eh igual ao
         //   eh atribuição de variável para variável
-        if(ctx.IDENT().toString() != null) {
-            if(!class_parameters.existeSimboloComClasse(ctx.IDENT().toString(),classe)){
-                System.out.println("Linha "+ ctx.getStart().getLine() +": Variável não declarada como parametro");
-            }else{
-                type = class_parameters.getTipoSimboloComClasse(ctx.IDENT().toString(),classe);
-            }
+        if(ctx.IDENT() != null){
+                if(!class_parameters.existeSimboloComClasse(ctx.IDENT().toString(),classe)){
+                    System.out.println("Linha "+ ctx.getStart().getLine() +": Variável não declarada como parametro");
+                }else{
+                    type = class_parameters.getTipoSimboloComClasse(ctx.IDENT().toString(),classe);
+                }
+
         }else if(ctx.STRING() != null){
             type = "String";
         }else if(ctx.NUM_INT() != null) {

@@ -54,6 +54,16 @@ public class TabelaDeSimbolos {
             return simbolos.get(i).getClasse();
         }
     }
+    public EntradaTabelaDeSimbolos getUltimaClasseDeclarada2(){
+        int i = getUltimaPosicaoOcupada();
+        while(i>=0){
+            if(simbolos.get(i).getTipo().equalsIgnoreCase("classe")){
+                return simbolos.get(i);
+            }
+            i--;
+        }
+        return null;
+    }
 
     /*
     * Editar o nome de um simbolo na posicao indicada. Retorna falso se a posicao não existe
