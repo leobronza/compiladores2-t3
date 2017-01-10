@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class SemanticMain {
     private final static String CAMINHO_CASOS_TESTE =
-            "/home/lucas/Dropbox/bcc/2016/2sem/cc2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/errados_semanticos_input/Ex1.java";
+            "/home/lucas/Dropbox/bcc/2016/2sem/cc2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/errados_semanticos_input/Ex2.java";
 
     public static void main(String[] args) throws IOException, RecognitionException, NullPointerException{
         File file = new File(CAMINHO_CASOS_TESTE);

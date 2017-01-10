@@ -37,7 +37,11 @@ function_main:
     'public' 'static' 'void' 'main' '(' 'String' 'args' '[]' ')' '{' function_body '}';
 
 function_body:
-    (t1=IDENT/*tipo*/ name=IDENT /*objeto*/ '=' 'new' t2=IDENT /*construtor*/ '(' (arguments)? ')' ';' )+
+   object_declaration*
+   ;
+
+object_declaration:
+    t1=IDENT/*tipo*/ name=IDENT /*objeto*/ '=' 'new' t2=IDENT /*construtor*/ '(' (arguments)? ')' ';'
     /* aqui são as variaveis que serão passadas por parametro para o construtor*/
     ;
 

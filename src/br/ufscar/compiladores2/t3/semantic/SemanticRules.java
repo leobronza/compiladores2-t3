@@ -66,6 +66,10 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
             visitConstructors(ctx.constructors());
         }
 
+        if(ctx.function_main() !=  null){
+            visitFunction_main(ctx.function_main());
+        }
+
         //todo implementar construtor e main
 
         return null;
@@ -190,12 +194,38 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
     @Override
     public String[] visitFunction_main(jaSONParser.Function_mainContext ctx) {
-        return super.visitFunction_main(ctx);
+
+        visitFunction_body(ctx.function_body());
+
+        return null;
     }
 
     @Override
     public String[] visitFunction_body(jaSONParser.Function_bodyContext ctx) {
-        return super.visitFunction_body(ctx);
+        for (jaSONParser.Object_declarationContext obj: ctx.object_declaration()){
+            visitObject_declaration(obj);
+        }
+        return null;
+    }
+
+    @Override
+    public String[] visitObject_declaration(jaSONParser.Object_declarationContext ctx) {
+        TabelaDeSimbolos escopoGlobal = pt.topo();
+
+
+        System.out.println(escopoGlobal);
+        System.out.println(ctx.t1.getText());
+
+        //  verifica se existe a classe
+        if(escopoGlobal.existeSimboloComTipo(ctx.t1.getText(),"classe")){
+            System.out.println("existe");
+
+        }else{
+            System.out.println("Linha "+ ctx.getStart().getLine() +": Classe não existe");
+        }
+
+
+        return null;
     }
 
     @Override
