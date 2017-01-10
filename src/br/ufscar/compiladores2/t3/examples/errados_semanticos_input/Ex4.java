@@ -6,7 +6,7 @@ class D{
     D(String a, double b, int c){
         this.x = a;
         this.y = b;
-        this.z = 2147483648;
+        this.z = 2147;
     }
 }
 class Ex4 {
@@ -22,7 +22,7 @@ class Ex4 {
     }
 
     public static void main(String args[]){
-        D obj1 = new D("s", 4.0,3);
+        C obj1 = new C("s", 4.0,3);
         D obj2 = new D("b",3.0,2);
     }
 }

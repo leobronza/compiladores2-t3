@@ -8,9 +8,9 @@ import br.ufscar.compiladores2.t3.antlr.*;
 import br.ufscar.compiladores2.t3.semantic.util.EntradaTabelaDeSimbolos;
 import br.ufscar.compiladores2.t3.semantic.util.PilhaDeTabelas;
 import br.ufscar.compiladores2.t3.semantic.util.TabelaDeSimbolos;
-import com.sun.javafx.fxml.expression.Expression;
-import javafx.scene.control.Tab;
-import jdk.nashorn.internal.ir.Assignment;
+//import com.sun.javafx.fxml.expression.Expression;
+//import javafx.scene.control.Tab;
+//import jdk.nashorn.internal.ir.Assignment;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
