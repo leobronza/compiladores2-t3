@@ -54,7 +54,6 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
         }else {
             escopoAtual.adicionarSimbolo(ctx.classe.getText(), "classe");
             class_parameters.adicionarSimbolo(ctx.classe.getText(), "classe");
-
         }
         visitClass_body(ctx.class_body());
 

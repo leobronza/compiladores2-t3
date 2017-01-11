@@ -1,4 +1,4 @@
-package br.ufscar.compiladores2.t3.semantic;
+package br.ufscar.compiladores2.t3.Generate;
 
 import br.ufscar.compiladores2.t3.antlr.jaSONLexer;
 import br.ufscar.compiladores2.t3.antlr.jaSONParser;
@@ -9,14 +9,17 @@ import org.antlr.v4.runtime.RecognitionException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+/**
+ * Created by leo on 10/01/17.
+ */
 
 /**
  * Created by lucas on 03/01/17.
  */
-public class SemanticMain {
+public class generateCode {
 
     private final static String CAMINHO_CASOS_TESTE =
-            "/media/leo/421B33D37F4D6D97/Comp2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/errados_semanticos_input/Ex3.java";
+            "/media/leo/421B33D37F4D6D97/Comp2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/corretos_input/Ex2.java";
 //    "/home/lucas/Dropbox/bcc/2016/2sem/cc2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/errados_semanticos_input/Ex2.java";
 
     public static void main(String[] args) throws IOException, RecognitionException, NullPointerException{
@@ -31,8 +34,8 @@ public class SemanticMain {
         jaSONParser parser = new jaSONParser(tokens);
         jaSONParser.ProgramContext context =  parser.program();
 
-        SemanticRules semantico = new SemanticRules();
-        semantico.visitProgram(context);
+        generateRules generate = new generateRules();
+        generate.visitProgram(context);
 
     }
 }
