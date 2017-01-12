@@ -259,23 +259,23 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
         // pega todos os parametros do construtor da classe
         List<EntradaTabelaDeSimbolos> params = class_parameters.getTodasEntradaDaClasse(classe);
 
-        for(int i =0;i<ctx.value().size();i++){
-            value = visitValue(ctx.value(i));
-            if(value != null){
-                if(!value[1].equalsIgnoreCase("Ident")){
-                    if(!params.get(i).getTipo().equalsIgnoreCase(value[1])){
-                        System.out.println("Linha "+ ctx.getStart().getLine() +": Parametros não compatível com o construtor");
-                        break;
+        //se a classe existe na classe de parametros
+        if(!params.isEmpty()) {
+            for (int i = 0; i < ctx.value().size(); i++) {
+                value = visitValue(ctx.value(i));
+                if (value != null) {
+                    // se não for do tipo Ident, ou seja se o parametro for tipo básico
+                    if (!value[1].equalsIgnoreCase("Ident")) {
+                        if (!params.get(i).getTipo().equalsIgnoreCase(value[1])) {
+                            System.out.println("Linha " + ctx.getStart().getLine() + ": Parametros não compatível com o construtor");
+                            break;
+                        }
                     }
-                }else{
-                    System.out.println("erro nao eh ident");
                 }
             }
+        }else{
+            System.out.println("Linha " + ctx.getStart().getLine() + ": Classe não existente");
         }
-
-
-
-
         return null;
     }
 
@@ -295,7 +295,6 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
             s[1] = "int";
             return s;
         }
-
         return null;
     }
 }
