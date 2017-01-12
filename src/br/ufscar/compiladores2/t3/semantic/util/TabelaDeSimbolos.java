@@ -68,9 +68,9 @@ public class TabelaDeSimbolos {
     /*
     * Editar o nome de um simbolo na posicao indicada. Retorna falso se a posicao não existe
     * */
-    public boolean editarNomeSimbolo(int posicao, String novoNome){
+    public boolean editarClasseHerdada(int posicao, String novaClasseHerdada){
         if(posicao<simbolos.size()){
-            simbolos.get(posicao).setNome(novoNome);
+            simbolos.get(posicao).setClasseHerdada(novaClasseHerdada);
             return true;
         }else{
             return false;
@@ -108,13 +108,9 @@ public class TabelaDeSimbolos {
         return false;
     }
 
-    public String getTipoSimbolo(String nome) {
-        for(EntradaTabelaDeSimbolos etds:simbolos) {
-            if(etds.getNome().equals(nome)) {
-                return etds.getTipo();
-            }
-        }
-        return null;
+    public int gettabelasize() {
+        return  simbolos.size();
+
     }
 
     public String getTipoSimboloComClasse(String nome, String classe) {
@@ -149,6 +145,22 @@ public class TabelaDeSimbolos {
        }else{
            return null;
        }
+    }
+    public String getClasse(int posicao){
+        if(posicao<simbolos.size()){
+            String classe = simbolos.get(posicao).getClasse();
+            return classe;
+        }else{
+            return null;
+        }
+    }
+    public String getClasseHerdada(int posicao){
+        if(posicao<simbolos.size()){
+            String classe = simbolos.get(posicao).getClasseHerdada();
+            return classe;
+        }else{
+            return null;
+        }
     }
     //retorna todos as entradas com o atributo classe = ao especificado
     public List<EntradaTabelaDeSimbolos> getTodasEntradaDaClasse(String classe){
