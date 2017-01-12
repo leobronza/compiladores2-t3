@@ -283,7 +283,7 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
     public String[] visitValue(jaSONParser.ValueContext ctx) {
         String[] s = {"true",null};
         if (ctx.IDENT() != null) {
-            s[1] = "ident";
+            s[1] = "String";
             return s;
         }else if(ctx.STRING() != null){
             s[1] = "String";

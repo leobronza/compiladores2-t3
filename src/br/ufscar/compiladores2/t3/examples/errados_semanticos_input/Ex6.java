@@ -1,9 +1,9 @@
 class G{
     String x;
-    float y;
+    double y;
     int z;
 
-    G(String a, float b,int c){
+    G(String a, double b,int c){
         this.x = a;
         this.y = b;
         this.z = c;
@@ -21,8 +21,8 @@ class Ex6 {
     }
 
     public static void main(String args[]){
-        G obj1 = new G("a",2,1);
-        G obj2 = new G("b",3,2);
+        G obj1 = new G("a",2.0,1);
+        G obj2 = new G("b",3.1,2);
         H obj3 = new H("c",3,2,true);
         G obj4 = new H("d",3,2,false);
     }

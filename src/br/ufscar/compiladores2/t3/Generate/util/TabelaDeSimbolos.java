@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufscar.compiladores2.t3.semantic.util;
+package br.ufscar.compiladores2.t3.Generate.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,29 +54,6 @@ public class TabelaDeSimbolos {
             return simbolos.get(i).getClasse();
         }
     }
-    public EntradaTabelaDeSimbolos getUltimaClasseDeclarada2(){
-        int i = getUltimaPosicaoOcupada();
-        while(i>=0){
-            if(simbolos.get(i).getTipo().equalsIgnoreCase("classe")){
-                return simbolos.get(i);
-            }
-            i--;
-        }
-        return null;
-    }
-
-    /*
-    * Editar o nome de um simbolo na posicao indicada. Retorna falso se a posicao não existe
-    * */
-    public boolean editarClasseHerdada(int posicao, String novaClasseHerdada){
-        if(posicao<simbolos.size()){
-            simbolos.get(posicao).setClasseHerdada(novaClasseHerdada);
-            return true;
-        }else{
-            return false;
-        }
-    }
-
 
     //procura o simbolo em todos os escopos, começando do atual para os mais geral até chegar no global
     public boolean existeSimbolo(String nome) {
@@ -86,6 +63,18 @@ public class TabelaDeSimbolos {
             }
         }
         return false;
+    }
+
+    //procura o simbolo em todos os escopos, começando do atual para os mais geral até chegar no global
+    public int getPosicaoSimbolo(String nome) {
+        int i =0;
+        for(EntradaTabelaDeSimbolos etds:simbolos) {
+            if(etds.getNome().equals(nome)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
 
     //Verifica se na tabela de simbolos existe um simbolo com o nome X e tipo Y
@@ -108,11 +97,6 @@ public class TabelaDeSimbolos {
         return false;
     }
 
-    public int gettabelasize() {
-        return  simbolos.size();
-
-    }
-
     public String getTipoSimboloComClasse(String nome, String classe) {
         for(EntradaTabelaDeSimbolos etds:simbolos) {
             if(etds.getNome().equals(nome) && etds.getClasse().equals(classe)) {
@@ -122,20 +106,7 @@ public class TabelaDeSimbolos {
         return null;
     }
 
-    public void removeSimbolosAPartir(int inicio, int fim){
-        for (int i = inicio; i<=fim-inicio;i++){
-            simbolos.remove(inicio);
-        }
-    }
-
-    public void removeSimbolosAPartir(int inicio){
-        int current_size = simbolos.size();
-        for (int i = inicio; i<=current_size-1;i++){
-            simbolos.remove(inicio);
-        }
-    }
-
-    /*
+       /*
     * Retorna o nome de um simbolo na posicao indicada. Retorna null se a posicao nao existe
     * */
     public String getNomeSimbolo(int posicao){

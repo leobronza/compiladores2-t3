@@ -1,2 +1,1 @@
-Linha 9: erro semantico valor inteiro muito grande
-Fim da compilacao
+Linha 25: Classe não existe

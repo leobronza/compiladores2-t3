@@ -2,9 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufscar.compiladores2.t3.semantic.util;
-
-import java.util.HashMap;
+package br.ufscar.compiladores2.t3.Generate.util;
 
 /**
  *
@@ -15,6 +13,11 @@ public class EntradaTabelaDeSimbolos {
     private  String tipo;
     private  String classe;
     private  String  classeHerdada;
+
+    /*variaveis para controle do gerador de codigo*/
+    private String token;
+    private String construtor_param;
+    private String valor;
 
     public EntradaTabelaDeSimbolos(String nome, String tipo) {
         this.nome = nome;
@@ -37,10 +40,16 @@ public class EntradaTabelaDeSimbolos {
         this.classeHerdada = classeHerdada;
     }
 
+    public EntradaTabelaDeSimbolos(String nome, String tipo, String classe, String classeHerdada, String token, String construtor_param, String valor) {
+        this.nome = nome;
+        this.tipo = tipo;
+        this.classe = classe;
+        this.classeHerdada = classeHerdada;
+        this.token = token;
+        this.construtor_param = construtor_param;
+        this.valor = valor;
+    }
 
-
-
-    
     public String getNome() {
         return nome;
     }
@@ -71,8 +80,33 @@ public class EntradaTabelaDeSimbolos {
         this.classeHerdada = classeHerdada;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getConstrutor_param() {
+        return construtor_param;
+    }
+
+    public void setConstrutor_param(String construtor_param) {
+        this.construtor_param = construtor_param;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
     @Override
     public String toString() {
-        return nome+" | "+tipo.toString()+" | "+classe+" | "+classeHerdada;
+        return nome+" | "+tipo.toString()+" | "+classe+" | "+classeHerdada+" | "+token+" | "+construtor_param+ "  | "+valor;
+        
     }
 }

@@ -6,8 +6,8 @@ class C{
 
     C(String a, double b, int c){
         this.x = a;
-        this.y = b;
-        this.z = c;
+        this.y = c;
+        this.z = b;
     }
 }
 class Ex3 {
