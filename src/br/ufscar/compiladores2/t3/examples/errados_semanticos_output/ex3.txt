@@ -1,3 +1,2 @@
-Linha 19: erro semantico esperado tipo inteiro
-Linha 20: erro semantico esperado tipo String
-Fim da compilacao
+Linha 7: Construtor nao compativel com a classe
+Linha 19: Classe não existente

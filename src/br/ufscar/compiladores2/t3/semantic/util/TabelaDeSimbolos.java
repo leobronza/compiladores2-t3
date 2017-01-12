@@ -167,7 +167,7 @@ public class TabelaDeSimbolos {
         List<EntradaTabelaDeSimbolos> syn = new ArrayList<>();
 
         for (EntradaTabelaDeSimbolos e: simbolos){
-            if(e.getClasse() != null && e.getClasse().equalsIgnoreCase(classe)){
+            if(e.getClasse() != null && e.getClasse().equalsIgnoreCase(classe) && !e.getTipo().equalsIgnoreCase("classe")){
                 syn.add(e);
             }
         }

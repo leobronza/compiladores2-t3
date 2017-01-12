@@ -261,9 +261,13 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
 
         //se a classe existe na classe de parametros
         if(!params.isEmpty()) {
+//            System.out.println(params);
             for (int i = 0; i < ctx.value().size(); i++) {
+//                System.out.println(ctx.value());
                 value = visitValue(ctx.value(i));
                 if (value != null) {
+//                    System.out.println(value[1]);
+//                    System.out.println(params.get(i).getTipo());
                     // se não for do tipo Ident, ou seja se o parametro for tipo básico
                     if (!value[1].equalsIgnoreCase("Ident")) {
                         if (!params.get(i).getTipo().equalsIgnoreCase(value[1])) {
@@ -283,7 +287,7 @@ public class SemanticRules extends jaSONBaseVisitor<String[]>  {
     public String[] visitValue(jaSONParser.ValueContext ctx) {
         String[] s = {"true",null};
         if (ctx.IDENT() != null) {
-            s[1] = "ident";
+            s[1] = "String";
             return s;
         }else if(ctx.STRING() != null){
             s[1] = "String";
