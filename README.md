@@ -1,7 +1,20 @@
-# compiladores2-t3
-trabalho 3  da diciplinas de compiladores 2, implementação de uma linguagem inventada.
+# Trabalho 3 :neckbeard:
+Trabalho 3  da diciplinas de compiladores 2, implementação de uma linguagem inventada, cujo objetivo
+é de compilar um programa simplificado java, verificando sintaxe e semântica, com a finalidade
+de gerar um JSON dos objetos declarados no programa.
+
+O trabalho 2 da diciplina foi a especificação da linguagem. Segue o link dos slides com a 
+documentação: https://docs.google.com/presentation/d/1j9q5S4gzA3nOO6MbfHrlGkDy0tw0JdnKhK3ndFTbesw/edit?usp=sharing
 
 # Semântica
+
+O analisador semântico, consegue verificar:
+* Atribuição de tipos incompatíveis
+* Uso de uma classe não declarada
+* Parametros enviados errado para o classe no momento da instanciação do objeto
+* Herança de classes não declaradas anteriormente
+* e outros
+
 
 ## Tabela de Simbolos
 
@@ -21,17 +34,31 @@ chamada _global_, armazena os nomes das classes e atributos dessas classes e a s
  x | int| B | A
  y | String | B | A
  z | double | B | null
- 
- 
- 
+  
  * tabela de parametros
+ 
+Essa tabela funciona da mesma forma que a tabela global com uma diferença
+de ao invés de armazenar os atributos da classe, ele armaze os parametros
+do construtor da classe
  
 Nome | Tipo | Classe | ehHerdado |
 ----|  ----|  -----|   ------    | 
 A   | classe | A   | null      |
+ y    | String | A | null
 x    | int   | A   | null      |
- 
-* tabela de geração
+ B     | classe | B | A |
+ x | int| B | A
+ y | String | B | A
+ z | double | B | null
+
+> além dessas tabelas principais foi implementado uma tabela de main para 
+armazenas os objetos criados.
+
+# Gerador de Código
+
+O gerador de código cria uma tabela de simbolos como a seguinte:
+
+* tabela se sim de geração
 
 Nome | Tipo | Classe | ehHerdado | token | constutor_param | valor |
 ----|  ----|  -----|   ------    | ----| -----| ---|
