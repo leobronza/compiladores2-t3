@@ -1,2 +1,1 @@
-Linha 17: erro semantico parametros invalido
-Fim da compilacao
+Linha 17: Parametros não compatível com o construtor

@@ -1,2 +1,2 @@
-Linha 8: erro semantico esperado double, recebido string
-Fim da compilacao
+Linha 8: Tipo de atribuição não compatível
+Linha 17: Parametros não compatível com o construtor

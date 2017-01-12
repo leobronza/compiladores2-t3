@@ -24,6 +24,7 @@ class Ex1 {
     }
 
     public static void main(String args[]){
+
         A1 obj1 = new A1("abc", 1.2, 5 ,2.2);
     }
 }
