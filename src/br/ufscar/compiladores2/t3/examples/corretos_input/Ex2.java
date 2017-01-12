@@ -4,9 +4,9 @@ class B{
     int z;
 
     B(String x, double y, int z){
-        this.x = z;
+        this.x = x;
         this.y = y;
-        this.z = x;
+        this.z = z;
     }
 }
 

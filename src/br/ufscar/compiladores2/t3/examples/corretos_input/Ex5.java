@@ -9,12 +9,13 @@ class E{
         this.z = c;
     }
 }
-class F extends E{
+class F {
     boolean d;
+    float o;
 
-    F(String a, double b, int c, boolean d){
-        super(a,b,c);
+    F(boolean d, float o){
         this.d = d;
+        this.o = o;
     }
 }
 
@@ -25,6 +26,7 @@ class Ex5 {
     public static void main(String args[]){
         E obj1 = new E("a",4.0,4);
         E obj2 = new E("b",3.0,2);
-        F obj3 = new F("c",3.0,2,true);
+        F f1 = new F(true, 2.3);
+        F f2 = new F(false, 5.6);
     }
 }

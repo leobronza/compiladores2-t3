@@ -5,6 +5,8 @@ import br.ufscar.compiladores2.t3.Generate.util.PilhaDeTabelas;
 import br.ufscar.compiladores2.t3.Generate.util.TabelaDeSimbolos;
 import br.ufscar.compiladores2.t3.antlr.jaSONBaseVisitor;
 import br.ufscar.compiladores2.t3.antlr.jaSONParser;
+import org.antlr.v4.codegen.model.decl.StructDecl;
+import org.antlr.v4.runtime.misc.IntegerList;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 
@@ -124,7 +126,18 @@ public class generateRules extends jaSONBaseVisitor<String[]> {
         String classe = global.getUltimaClasseDeclarada();
         for(EntradaTabelaDeSimbolos ent: global.getTodasEntradaDaClasse(classe)){
             if(ent.getNome().equalsIgnoreCase(attribute)){
-                ent.setConstrutor_param(String.valueOf(params.getPosicaoSimbolo(ctx.IDENT().toString())));
+                if(ctx.IDENT() != null) {
+                    ent.setConstrutor_param(String.valueOf(params.getPosicaoSimbolo(ctx.IDENT().toString())));
+                }else if(ctx.NUM_INT() != null){
+                    ent.setConstrutor_param(String.valueOf(-1));
+                    ent.setValor(ctx.NUM_INT().toString());
+                }else if(ctx.NUM_FLOAT() != null) {
+                    ent.setConstrutor_param(String.valueOf(-1));
+                    ent.setValor(ctx.NUM_FLOAT().toString());
+                }if(ctx.STRING() != null) {
+                    ent.setConstrutor_param(String.valueOf(-1));
+                    ent.setValor(ctx.STRING().toString());
+                }
             }
         }
         return null;
@@ -165,26 +178,66 @@ public class generateRules extends jaSONBaseVisitor<String[]> {
 
     @Override
     public String[] visitFunction_main(jaSONParser.Function_mainContext ctx) {
-        return super.visitFunction_main(ctx);
+        visitFunction_body(ctx.function_body());
+        return null;
     }
 
     @Override
     public String[] visitFunction_body(jaSONParser.Function_bodyContext ctx) {
-        return super.visitFunction_body(ctx);
+        TabelaDeSimbolos main = new TabelaDeSimbolos("main");
+        pt.empilhar(main);
+
+        for (int i = 0;i< ctx.object_declaration().size();i++){
+            jaSONParser.Object_declarationContext obj = ctx.object_declaration(i);
+
+            visitObject_declaration(obj);
+
+            if(i < ctx.object_declaration().size()-1)
+                System.out.println(",");
+            else
+                System.out.println("");
+        }
+
+        pt.desempilhar();
+        return null;
     }
 
     @Override
     public String[] visitObject_declaration(jaSONParser.Object_declarationContext ctx) {
-        return super.visitObject_declaration(ctx);
+        TabelaDeSimbolos main = pt.topo();
+
+        System.out.println("\t\""+ctx.name.getText()+"\": [");
+
+        if(ctx.arguments() != null){
+            main.adicionarSimbolo(ctx.t1.getText(),"classe");
+            visitArguments(ctx.arguments());
+        }
+        System.out.print("\t]");
+        return null;
     }
 
     @Override
     public String[] visitArguments(jaSONParser.ArgumentsContext ctx) {
-        return super.visitArguments(ctx);
+        TabelaDeSimbolos global = pt.getGlobalTable();
+        TabelaDeSimbolos main = pt.topo();
+        String classe = main.getUltimaClasseDeclarada();
+
+        for (EntradaTabelaDeSimbolos etds: global.getTodasEntradaDaClasse(classe)){
+            if(Integer.parseInt(etds.getConstrutor_param()) != -1){
+                String valor = visitValue(ctx.value(Integer.parseInt(etds.getConstrutor_param())))[1];
+
+                System.out.println("\t\t"+etds.getToken()+" "+valor+",");
+            }else{
+                System.out.println("\t\t"+etds.getToken()+" "+etds.getValor()+",");
+            }
+        }
+
+        return null;
     }
 
     @Override
     public String[] visitValue(jaSONParser.ValueContext ctx) {
-        return super.visitValue(ctx);
+        String[] s = {"true", ctx.getText()};
+        return s;
     }
 }

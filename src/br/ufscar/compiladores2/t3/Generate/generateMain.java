@@ -20,7 +20,7 @@ public class generateMain {
 
     private final static String CAMINHO_CASOS_TESTE =
 //            "/media/leo/421B33D37F4D6D97/Comp2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/corretos_input/Ex3.java";
-    "/home/lucas/Dropbox/bcc/2016/2sem/cc2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/corretos_input/Ex2.java";
+    "/home/lucas/Dropbox/bcc/2016/2sem/cc2/compiladores2-t3/src/br/ufscar/compiladores2/t3/examples/corretos_input/Ex5.java";
 
     public static void main(String[] args) throws IOException, RecognitionException, NullPointerException{
         File file = new File(CAMINHO_CASOS_TESTE);
