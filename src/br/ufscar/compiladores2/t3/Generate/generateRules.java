@@ -37,7 +37,17 @@ public class generateRules extends jaSONBaseVisitor<String[]> {
         TabelaDeSimbolos escopoAtual = pt.topo();
 
         if(ctx.classExtended != null){ //se for uma classe extendida
-        // todo implementar o caso de herança
+            EntradaTabelaDeSimbolos etds =
+                    new EntradaTabelaDeSimbolos(ctx.classe.getText(), "classe", ctx.classe.getText(), ctx.classExtended.getText(), "[", null, null);
+            escopoAtual.adicionarSimbolo(etds);
+
+            List<EntradaTabelaDeSimbolos> listaDeVariaveis = escopoAtual.getTodasEntradaDaClasse(ctx.classExtended.getText());
+            for (EntradaTabelaDeSimbolos e: listaDeVariaveis){
+                EntradaTabelaDeSimbolos newEt =
+                        new EntradaTabelaDeSimbolos(e.getNome(), e.getTipo(), ctx.classe.getText(),ctx.classExtended.getText(),e.getToken(),
+                                                            e.getConstrutor_param(),e.getValor());
+                escopoAtual.adicionarSimbolo(newEt);
+            }
 
         // se nao for herança
         }else {
@@ -107,11 +117,6 @@ public class generateRules extends jaSONBaseVisitor<String[]> {
         for (jaSONParser.AssignmentContext context: ctx.assignment()){
             visitAssignment(context);
         }
-        // todo verificar caso com o super
-
-
-        System.out.println(glboal);
-        System.out.println(params);
         return null;
     }
 
@@ -221,17 +226,24 @@ public class generateRules extends jaSONBaseVisitor<String[]> {
         TabelaDeSimbolos global = pt.getGlobalTable();
         TabelaDeSimbolos main = pt.topo();
         String classe = main.getUltimaClasseDeclarada();
+        List<EntradaTabelaDeSimbolos> todasEntradas = global.getTodasEntradaDaClasse(classe);
+        EntradaTabelaDeSimbolos etds = null;
 
-        for (EntradaTabelaDeSimbolos etds: global.getTodasEntradaDaClasse(classe)){
+        for (int i =0;i<todasEntradas.size();i++){
+            etds = todasEntradas.get(i);
+
             if(Integer.parseInt(etds.getConstrutor_param()) != -1){
                 String valor = visitValue(ctx.value(Integer.parseInt(etds.getConstrutor_param())))[1];
-
-                System.out.println("\t\t"+etds.getToken()+" "+valor+",");
+                System.out.print("\t\t"+etds.getToken()+" "+valor);
             }else{
-                System.out.println("\t\t"+etds.getToken()+" "+etds.getValor()+",");
+                System.out.print("\t\t"+etds.getToken()+" "+etds.getValor());
+            }
+            if(i < todasEntradas.size()-1){
+                System.out.println(",");
+            }else{
+                System.out.println();
             }
         }
-
         return null;
     }
 
