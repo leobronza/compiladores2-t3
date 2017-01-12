@@ -87,8 +87,11 @@ public class generateRules extends jaSONBaseVisitor<String[]> {
     public String[] visitConstructors(jaSONParser.ConstructorsContext ctx) {
         if(ctx.parameters() != null){
             visitParameters(ctx.parameters());
+            visitConstructor_body(ctx.constructor_body());
+            pt.desempilhar();
+        }else{
+            visitConstructor_body(ctx.constructor_body());
         }
-        visitConstructor_body(ctx.constructor_body());
 
         return null;
     }
@@ -98,20 +101,39 @@ public class generateRules extends jaSONBaseVisitor<String[]> {
         TabelaDeSimbolos params = pt.topo();
         TabelaDeSimbolos glboal = pt.getGlobalTable();
 
+
+        for (jaSONParser.AssignmentContext context: ctx.assignment()){
+            visitAssignment(context);
+        }
+        // todo verificar caso com o super
+
+
         System.out.println(glboal);
         System.out.println(params);
-
         return null;
     }
 
     @Override
     public String[] visitAssignment(jaSONParser.AssignmentContext ctx) {
-        return super.visitAssignment(ctx);
+        TabelaDeSimbolos params = pt.topo();
+        TabelaDeSimbolos global = pt.getGlobalTable();
+
+        String attribute = visitAttribute(ctx.attribute())[1];
+
+        //ultima classe declarada
+        String classe = global.getUltimaClasseDeclarada();
+        for(EntradaTabelaDeSimbolos ent: global.getTodasEntradaDaClasse(classe)){
+            if(ent.getNome().equalsIgnoreCase(attribute)){
+                ent.setConstrutor_param(String.valueOf(params.getPosicaoSimbolo(ctx.IDENT().toString())));
+            }
+        }
+        return null;
     }
 
     @Override
     public String[] visitAttribute(jaSONParser.AttributeContext ctx) {
-        return super.visitAttribute(ctx);
+        String[] s = {"true",ctx.IDENT().toString()};
+        return s;
     }
 
     @Override

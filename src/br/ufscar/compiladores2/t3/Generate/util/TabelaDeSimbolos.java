@@ -65,6 +65,18 @@ public class TabelaDeSimbolos {
         return false;
     }
 
+    //procura o simbolo em todos os escopos, começando do atual para os mais geral até chegar no global
+    public int getPosicaoSimbolo(String nome) {
+        int i =0;
+        for(EntradaTabelaDeSimbolos etds:simbolos) {
+            if(etds.getNome().equals(nome)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
     //Verifica se na tabela de simbolos existe um simbolo com o nome X e tipo Y
     public boolean existeSimboloComTipo(String nome, String tipo) {
         for(EntradaTabelaDeSimbolos etds:simbolos) {

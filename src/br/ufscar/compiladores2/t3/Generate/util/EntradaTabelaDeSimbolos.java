@@ -80,6 +80,30 @@ public class EntradaTabelaDeSimbolos {
         this.classeHerdada = classeHerdada;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getConstrutor_param() {
+        return construtor_param;
+    }
+
+    public void setConstrutor_param(String construtor_param) {
+        this.construtor_param = construtor_param;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
     @Override
     public String toString() {
         return nome+" | "+tipo.toString()+" | "+classe+" | "+classeHerdada+" | "+token+" | "+construtor_param+ "  | "+valor;
